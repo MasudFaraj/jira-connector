@@ -1,0 +1,17 @@
+﻿<SolutionConfiguration>
+  <Settings>
+    <AllowParallelTestExecution>True</AllowParallelTestExecution>
+    <MetricsExclusionList>
+      <Value>Redmine\RedmineDbContext.cs:src\Infrastructure\Infrastructure.csproj</Value>
+      <Value>src\Infrastructure\Infrastructure.csproj\Redmine\Resources</Value>
+      <Value>HRWorks\Handler\HrWorksCacheServiceAuthenticationHandler.cs:src\Infrastructure\Infrastructure.csproj</Value>
+      <Value>src\Infrastructure\Infrastructure.csproj\AppPersistence\Migrations</Value>
+      <Value>DependencyInjection.cs:src\Infrastructure\Infrastructure.csproj</Value>
+      <Value>DependencyInjection.cs:src\Application\Application.csproj</Value>
+      <Value>Properties\ValidationMessages.Designer.cs:src\Application\Application.csproj</Value>
+      <Value>Program.cs:src\ApiClient\ApiClient.csproj</Value>
+      <Value>proxyClient\ProxyUserServiceClient\ProxyUserServiceClient.csproj</Value>
+    </MetricsExclusionList>
+    <SolutionConfigured>True</SolutionConfigured>
+  </Settings>
+</SolutionConfiguration>

@@ -1,0 +1,7 @@
+root = false
+
+[*.cs]
+#Style - Miscellaneous preferences
+
+#prefer anonymous functions over local functions
+csharp_style_pattern_local_over_anonymous_function = false:suggestion

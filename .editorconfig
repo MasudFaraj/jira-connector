@@ -1,0 +1,12 @@
+root = true
+# You can learn more about editorconfig here: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference
+[*.cs]
+
+
+#Core editorconfig formatting - indentation
+
+#use soft tabs (spaces) for indentation
+indent_style = space
+
+# TODO Should become default severity again
+dotnet_diagnostic.NUnit1027.severity = suggestion

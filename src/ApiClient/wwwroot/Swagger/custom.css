@@ -1,0 +1,4 @@
+﻿.swagger-ui .opblock [data-path="/api/User/updateSuperior"] ~ .opblock-summary-description {
+    color: red;
+    font-weight: bold;
+}

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<RootNamespace>Neusta.UserService.TestBase</RootNamespace>
+		<AssemblyName>Neusta.UserService.TestBase</AssemblyName>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MockQueryable.Moq" Version="5.0.1" />
+		<PackageReference Include="Moq" Version="4.17.2" />
+		<PackageReference Include="NUnit" Version="3.13.2" />
+		<PackageReference Include="AutoMapper" Version="11.0.1" />
+	</ItemGroup>
+
+</Project>

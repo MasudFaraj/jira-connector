@@ -1,0 +1,103 @@
+variables:
+  DOCKER_REGISTRY: docker-repository.intern.neusta.de
+  DOTNET_SDK_VERSION: "8.0"
+  TARGET_DEV: dev
+  TARGET_TEST: test
+  TARGET_PROD: prod
+
+stages:
+  - lint
+  - build
+  - test
+  - report
+  - publish
+  - analyze-source
+  - build-images
+  - analyze-image
+  - deploy
+  - integration
+
+include:
+  - project: "NSD/p_nip/nip-ci-cd-template"
+    ref: main
+    file: "/template-includes.gitlab-ci.yml"
+
+git-version:
+  extends:
+    - .git-version
+
+lint-merge-request-title:
+  extends:
+    - .rules-merge-request
+    - .merge-request-guidelines
+
+build:
+  extends: .build
+
+unit-tests:
+  extends: .unit-tests
+  needs:
+    - build
+  variables:
+    EXCLUDE_PATTERN: "[Neusta.*.Test*]*,[Neusta.*]*.Migrations.*"
+
+mutation-tests:
+  extends: .mutate-solution-tests
+  variables: 
+    SOLUTION_FILE: ./Neusta.Jira.Base.sln
+
+sonarscanner-check:
+  extends: .sonarscanner
+  variables:
+    SONAR_PROJECT_NAME: "NIP.NJB-API"
+  needs:
+    - coverage
+
+coverage:
+  extends: .coverage
+  needs:
+    - unit-tests
+
+publish-docker-image:
+  extends:
+    - .rules-job-deploy
+    - .publish-docker-image
+  variables:
+    IMAGE_NAME: nip/njb-api
+    DOCKERFILE_LOCATION: ./src/ApiClient/Dockerfile
+  needs:
+    - git-version
+    - build
+    - unit-tests
+    - mutation-tests
+
+container_scanning:
+  extends:
+    - .rules-job-deploy-no-restrictions
+    - .container_scanning
+  variables:
+    BASE_IMAGE_NAME: nip/njb-api
+    IMAGE_TAG: ${PACKAGE_VERSION} # ${PACKAGE_VERSION:-$CI_COMMIT_SHA} https://gitlab.com/groups/gitlab-org/-/epics/7437
+  needs:
+    - git-version
+    - publish-docker-image
+
+pre-deploy:
+  extends:
+    - .pre-deploy
+    - .rules-job-deploy-no-restrictions
+  needs:
+    - publish-docker-image
+
+deploy:
+  stage: deploy
+  extends:
+    - .rules-job-deploy-no-restrictions
+  variables: # All job variables will be exposed in upstream pipeline
+    DEPLOYMENT_TARGET: $TARGET
+    NJB_VERSION: ${PACKAGE_VERSION} # ${PACKAGE_VERSION:-$CI_COMMIT_SHA} https://gitlab.com/groups/gitlab-org/-/epics/7437
+  trigger: NSD/p_nip/nip-orchestration
+  needs:
+    - publish-docker-image
+    - pre-deploy
+    - git-version
