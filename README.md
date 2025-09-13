@@ -28,4 +28,4 @@ Es ruft Daten über die Jira REST API ab und bereitet diese in übersichtlicher 
 ## Installation & Setup
 1. Repository klonen:
    ```bash
-   git clone https://github.com/<DEIN-USERNAME>/jira-connector.git
+   git clone https://github.com/MasudFaraj/jira-connector.git
